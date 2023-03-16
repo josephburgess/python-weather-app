@@ -5,18 +5,25 @@ API_KEY = os.environ.get('OPENWEATHER_API_KEY')
 
 
 def get_weather_data(latitude, longitude):
-
     url = f'http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={API_KEY}&units=metric'
     response = requests.get(url)
+
+    if response.status_code != 200:
+        return None
+
     data = response.json()
+
+    if 'main' not in data:
+        return None
+
     temperature = data['main']['temp']
     wind_speed = data['wind']['speed']
     weather_description = data['weather'][0]['description']
+
     return {'temperature': temperature, 'wind_speed': wind_speed, 'weather_description': weather_description}
 
 
 def display_weather_data(weather_data):
-
     print(f"Temperature: {weather_data['temperature']}°C")
     print(f"Wind Speed: {weather_data['wind_speed']} m/s")
     print(f"Weather Description: {weather_data['weather_description']}")
