@@ -5,17 +5,10 @@ API_KEY = os.environ.get('OPENWEATHER_API_KEY')
 
 
 def get_weather_data(latitude, longitude):
-    """
-    Gets current weather data from OpenWeatherMap API for a given latitude and longitude.
-    """
+
     url = f'http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={API_KEY}&units=metric'
-
-    # Debugging code: print out the URL with the API key
-    print(url)
-
     response = requests.get(url)
     data = response.json()
-
     temperature = data['main']['temp']
     wind_speed = data['wind']['speed']
     weather_description = data['weather'][0]['description']
@@ -30,9 +23,6 @@ def display_weather_data(weather_data):
 
 
 def main():
-    """
-    Runs the main loop of the app, prompting the user for latitude and longitude and displaying the current weather data.
-    """
     latitude = input("Enter the latitude of your location: ")
     longitude = input("Enter the longitude of your location: ")
     weather_data = get_weather_data(latitude, longitude)
